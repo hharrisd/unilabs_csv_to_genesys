@@ -4,9 +4,9 @@ from pydantic import BaseModel
 
 class BaseCSVModel(BaseModel):
     @classmethod
-    def from_csv_row(cls, row: str):
+    def from_csv_row(cls, row: str | list[str]):
         """Create an instance of the model from a CSV row."""
-        values = row.split(',')
+        values = row.split(',') if type(row) is str else row
         field_values = {}
         for i, field in enumerate(cls.model_fields.keys()):
             if i < len(values) and values[i]:
