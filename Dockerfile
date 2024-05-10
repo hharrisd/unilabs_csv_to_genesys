@@ -1,5 +1,5 @@
 # Use the Microsoft SQL Server Docker image
-FROM mcr.microsoft.com/mssql/server:2019-latest
+FROM mcr.microsoft.com/azure-sql-edge
 
 # Set the environment variables for SQL Server
 ENV ACCEPT_EULA=Y
