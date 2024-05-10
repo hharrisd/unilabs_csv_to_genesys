@@ -163,3 +163,4 @@ cython_debug/
 
 # Data folder: Source CSV files
 /data
+config.toml
