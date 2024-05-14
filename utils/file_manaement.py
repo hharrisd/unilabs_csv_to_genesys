@@ -6,15 +6,15 @@ import shutil
 logger = logging.getLogger("development")
 
 
-def list_csv_files(path: str) -> list[str]:
+def list_csv_files(path: str) -> dict[str, dict[str, list]]:
     """
-    Returns a list of all CSV files in the given path.
+    Returns a dictionary of all CSV files in the given path.
 
     Args:
         path (str): The path to search for CSV files.
 
     Returns:
-        list: A list of file paths for all CSV files found in the given path.
+        files_to_process (dict): A dictionary of file paths for all CSV files found in the given path.
 
     Raises:
         FileNotFoundError: If the provided path does not exist.
@@ -26,6 +26,7 @@ def list_csv_files(path: str) -> list[str]:
         raise FileNotFoundError(f"The path '{path}' does not exist.")
 
     csv_files = []
+    files_to_process = {}
 
     # Walk through the directory tree starting from the given path
     for root, dirs, files in os.walk(path):
@@ -33,10 +34,13 @@ def list_csv_files(path: str) -> list[str]:
             # Check if the file has a .csv extension
             if file.endswith('.csv'):
                 # Construct the full file path and append it to the list
-                csv_files.append(os.path.join(root, file))
+                db_id, table, _ = parse_filename(file)
+                files_to_process[db_id] = files_to_process.get(db_id, {})
+                files_to_process[db_id][table] = files_to_process[db_id].get(table, [])
+                files_to_process[db_id][table].append(os.path.join(root, file))
 
     logger.info(f"Found {len(csv_files)} files")
-    return csv_files
+    return files_to_process
 
 
 def read_file_content(path: str) -> list[list[str]]:
@@ -51,7 +55,7 @@ def read_file_content(path: str) -> list[list[str]]:
         return [row for row in reader]
 
 
-def parse_filename(file_path: str) -> list[str]:
+def parse_filename(file_path: str) -> tuple[str, ...]:
     """
     Returns the parts from the filename
     :param file_path: complete file path
@@ -59,7 +63,7 @@ def parse_filename(file_path: str) -> list[str]:
     """
     file_name = os.path.basename(file_path)
     name = os.path.splitext(file_name)[0]  # removes file's extension
-    return name.strip('%').split('%')
+    return tuple(name.strip('%').split('%'))
 
 
 def move_file(file_path: str, destination_path: str) -> str:
