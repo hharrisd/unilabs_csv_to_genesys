@@ -5,10 +5,10 @@ csv_str = """ID_Personal,Fecha,Cantidad_Horas,PeriodoAño,Observaciones
 
 expected_list = [
     {
-        'id_personal': '40770860',
-        'fecha': date(2024, 3, 4),
-        'cantidad_horas': 0,
-        'periodo_ano': 2024,
-        'observaciones': None
+        'ID_Personal': '40770860',
+        'Fecha': date(2024, 3, 4),
+        'Cantidad_Horas': 0,
+        'PeriodoAño': 2024,
+        'Observaciones': None
     }
 ]

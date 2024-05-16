@@ -1,6 +1,6 @@
-from datetime import date
+from datetime import datetime
 
-csv_str = """ID_Personal,Fecha,ID_TipoFalta,Descripcion,Estado,Condicion,Cantidad_Horas,observaciones
+csv_str = """ID_Personal,Fecha,ID_TipoFalta,Descripcion,Estado,Condicion,Cantidad_Horas,Observaciones
 09330594,09/02/2024,4,,1,0,2
 43090510,30/01/2024,1,,1,1,1
 43090510,02/01/2024,1,,1,1,1
@@ -13,76 +13,83 @@ csv_str = """ID_Personal,Fecha,ID_TipoFalta,Descripcion,Estado,Condicion,Cantida
 
 expected_list = [
     {
-        "id_personal": '09330594',
-        "fecha": date(2024, 2, 9),
-        "id_tipo_falta": 4,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 0,
-        "cantidad_horas": 2,
+        "ID_Personal": '09330594',
+        "Fecha": datetime(2024, 2, 9),
+        "ID_TipoFalta": 4,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 0,
+        "Cantidad_Horas": 2,
+        "Observaciones": None
     },
     {
-        "id_personal": '43090510',
-        "fecha": date(2024, 1, 30),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '43090510',
+        "Fecha": datetime(2024, 1, 30),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '43090510',
-        "fecha": date(2024, 1, 2),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '43090510',
+        "Fecha": datetime(2024, 1, 2),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '09993871',
-        "fecha": date(2024, 1, 16),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '09993871',
+        "Fecha": datetime(2024, 1, 16),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '09993871',
-        "fecha": date(2024, 1, 31),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '09993871',
+        "Fecha": datetime(2024, 1, 31),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '42860009',
-        "fecha": date(2024, 1, 23),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '42860009',
+        "Fecha": datetime(2024, 1, 23),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '47428300',
-        "fecha": date(2024, 1, 18),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
+        "ID_Personal": '47428300',
+        "Fecha": datetime(2024, 1, 18),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": None
     },
     {
-        "id_personal": '47428300',
-        "fecha": date(2024, 2, 5),
-        "id_tipo_falta": 1,
-        "descripcion": None,
-        "estado": 1,
-        "condicion": 1,
-        "cantidad_horas": 1,
-        'observaciones': 'Ejemplo de observaciones'
+        "ID_Personal": '47428300',
+        "Fecha": datetime(2024, 2, 5),
+        "ID_TipoFalta": 1,
+        "Descripcion": None,
+        "Estado": 1,
+        "Condicion": 1,
+        "Cantidad_Horas": 1,
+        "Observaciones": 'Ejemplo de observaciones'
     },
 ]
