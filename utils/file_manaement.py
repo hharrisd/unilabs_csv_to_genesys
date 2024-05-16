@@ -92,7 +92,10 @@ def move_file(file_path: str, destination_path: str, logger: Logger) -> str:
     # Construct the new file path
     new_file_path = os.path.join(destination_path, filename)
 
-    # Move the file
-    shutil.move(file_path, new_file_path)
-    logger.info(f"File moved to: {new_file_path}")
-    return new_file_path
+    try:
+        # Move the file
+        shutil.move(file_path, new_file_path)
+        logger.info(f"File moved to: {new_file_path}")
+        return new_file_path
+    except Exception as e:
+        logger.error(f"Error moving file {filename} to {destination_path}: {e}")
