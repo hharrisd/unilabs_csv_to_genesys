@@ -11,8 +11,8 @@ from models.operations import insert_records, execute_procedures, OperationalExc
 from utils.file_manaement import list_csv_files, read_file_content, move_file
 
 with open("logging_config.yaml", "rb") as f:
-    config = yaml.safe_load(f.read())
-    logging.config.dictConfig(config)
+    logging_config_file = yaml.safe_load(f.read())
+    logging.config.dictConfig(logging_config_file)
 
 with open('config.toml', 'rb') as f:
     config = tomllib.load(f)
