@@ -1,35 +1,39 @@
+from logging import Logger
 from typing import Type
 
 from pydantic import ValidationError
 
-from .personal import Personal
-from .base_csv_model import BaseCSVModel
-from .vacacion import Vacacion
-from .falta import Falta
-from .rrhh_falta import Tmp_RRHHFalta
-from .persona_natural import PersonaNatural
 from .autorizar_h_e import AutorizarHE
+from .base_models import BaseCSVModel, BaseModelFactory
 from .concepto_aplicado import ConceptoAplicado
 from .dato_extra import DatoExtra
+from .falta import Falta, FaltaFactory
 from .licencia import Licencia
+from .persona_natural import PersonaNatural
+from .personal import Personal
+from .vacacion import Vacacion
 
-model_mapper = {
-    '_TMP_RRHHFalta_': {'pydantic_model': Falta, 'orm_model': Tmp_RRHHFalta}
+
+model_mapper: dict[str, Type[BaseModelFactory]] = {
+    '_TMP_RRHHFalta_': FaltaFactory
 }
 
 
-def csv_load(data: list, table: str):
+def csv_load(rows: list, table: str, logger: Logger) -> list[BaseCSVModel]:
     """
     Utility function to load data into model instances from CSV data.
-    :param data:
-    :param table:
-    :return:
+    :param rows: CSV data without header
+    :param table: DB Table name
+    :param logger: Loger object
+    :return: model_data_list
     """
-    model = model_mapper[table]['pydantic_model']
+    model = model_mapper[table].pydantic_model
 
     try:
-        model_data_list = [model.from_csv_row(line) for line in data[1:]]
+        model_data_list = [model.from_csv_row(line) for line in rows]
+        logger.info(f"{len(model_data_list)} objects from class '{model.__name__}' created from {len(rows)} CSV rows.")
     except ValidationError as e:
-        print(f"Error al parsear los datos CSV: {e}")
+        logger.error(f"Error al parsear los datos CSV: {e}")
+        raise ValueError("Error during insert records")
 
     return model_data_list
