@@ -1,5 +1,6 @@
 from logging import Logger
 
+import pyodbc
 from sqlalchemy import sql
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -19,17 +20,19 @@ def insert_records(records: list[BaseCSVModel], session: Session, table: str, lo
     :param table: Table to perform the insertion
     :param logger: Logger object
     """
-    EntityDB = model_mapper[table].orm_model
+    orm_entity_class = model_mapper[table].orm_model
+
+    logger.debug(f"About to insert {len(records)} records on class {orm_entity_class.__name__}")
 
     try:
         for record in records:
-            entity_db = EntityDB(**record.model_dump())
-            session.add(entity_db)
+            entity_object = orm_entity_class(**record.model_dump())
+            session.add(entity_object)
 
         session.commit()
-        logger.info(f"{len(records)} inserted on table {EntityDB.__table__}")
-    except SQLAlchemyError as e:
-        logger.error(f"Error during insertion en entity {EntityDB.__name__}: {e}")
+        logger.info(f"{len(records)} inserted on table {orm_entity_class.__table__}")
+    except (SQLAlchemyError, pyodbc.Error) as e:
+        logger.error(f"Error during insertion on entity {orm_entity_class.__name__}: \n{e}")
         raise OperationalException("Error during insert records")
 
 
