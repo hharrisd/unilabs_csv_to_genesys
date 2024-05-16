@@ -1,5 +1,8 @@
+from abc import ABC
 from datetime import datetime
+
 from pydantic import BaseModel
+from sqlalchemy.orm import DeclarativeBase
 
 
 class BaseCSVModel(BaseModel):
@@ -22,3 +25,13 @@ class BaseCSVModel(BaseModel):
             except ValueError:
                 raise ValueError(f'Invalid date format: {value}')
         return value
+
+
+class BaseORM(DeclarativeBase):
+    pass
+
+
+class BaseModelFactory(ABC):
+    pydantic_model: BaseCSVModel
+    orm_model: BaseORM
+    procedures: list[tuple]
