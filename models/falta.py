@@ -53,4 +53,4 @@ class FaltaEntity(BaseORM):
 class FaltaFactory(BaseModelFactory):
     pydantic_model = Falta
     orm_model = FaltaEntity
-    procedures = [('EXEC sp_TMPRRHHFalta', None), ('EXEC sp_HelloName :name', {'name': 'Loki'})]
+    procedures = [('EXEC sp_TMPRRHHFalta', None)]

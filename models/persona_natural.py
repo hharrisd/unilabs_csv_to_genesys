@@ -1,6 +1,11 @@
+from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional
 
-from models.base_models import BaseCSVModel
+from sqlalchemy import String, DateTime, Integer, Numeric
+from sqlalchemy.orm import Mapped, mapped_column
+
+from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class PersonaNatural(BaseCSVModel):
@@ -10,3 +15,33 @@ class PersonaNatural(BaseCSVModel):
     ApellidoMaterno: Optional[str] = None
     DNI: str
     RUC: Optional[str] = None
+
+
+class PersonaNaturalEntity(BaseORM):
+    __tablename__ = 'TMP_PersonaNatural'
+
+    Op: Mapped[int] = mapped_column(Numeric(18, 0), primary_key=True, autoincrement=True)
+    Nombre1: Mapped[str] = mapped_column(String(50), nullable=False)
+    Nombre2: Mapped[str] = mapped_column(String(50), nullable=True)
+    ApellidoPaterno: Mapped[str] = mapped_column(String(50), nullable=False)
+    ApellidoMaterno: Mapped[str] = mapped_column(String(50), nullable=False)
+    DNI: Mapped[str] = mapped_column(String(8), nullable=False)
+    RUC: Mapped[str] = mapped_column(String(11), nullable=True)
+    OpTransferido: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
+    OpTransferidoIntento: Mapped[int] = mapped_column(Numeric(18, 0), nullable=True, default=1)
+    OpTransferidoFechaHora: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=datetime.now())
+    OpTransferidoUsuario: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
+
+    def __repr__(self):
+        return (
+            f"TMP_PersonaNatural(Nombre1='{self.Nombre1}', Nombre2='{self.Nombre2}', "
+            f"ApellidoPaterno='{self.ApellidoPaterno}', ApellidoMaterno='{self.ApellidoMaterno}', "
+            f"DNI='{self.DNI}', RUC='{self.RUC}')"
+        )
+
+
+@dataclass
+class PersonaNaturalFactory(BaseModelFactory):
+    pydantic_model = PersonaNatural
+    orm_model = PersonaNaturalEntity
+    procedures = [('EXEC sp_TMPPersonaNatural', None)]

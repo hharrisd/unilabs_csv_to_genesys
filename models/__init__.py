@@ -3,19 +3,25 @@ from typing import Type
 
 from pydantic import ValidationError
 
-from .autorizar_h_e import AutorizarHE
+from .autorizar_h_e import AutorizarHE, AutorizarHEFactory
 from .base_models import BaseCSVModel, BaseModelFactory
-from .concepto_aplicado import ConceptoAplicado
-from .dato_extra import DatoExtra
+from .concepto_aplicado import ConceptoAplicado, ConceptoAplicadoFactory
+from .dato_extra import DatoExtra, DatoExtraFactory
 from .falta import Falta, FaltaFactory
-from .licencia import Licencia
-from .persona_natural import PersonaNatural
-from .personal import Personal
-from .vacacion import Vacacion
-
+from .licencia import Licencia, LicenciaFactory
+from .persona_natural import PersonaNatural, PersonaNaturalFactory
+from .personal import Personal, PersonalFactory
+from .vacacion import Vacacion, VacacionFactory
 
 model_mapper: dict[str, Type[BaseModelFactory]] = {
-    '_TMP_RRHHFalta_': FaltaFactory
+    '_TMP_RRHHAutorizarHE_': AutorizarHEFactory,
+    '_TMP_RRHHConceptoAplicado_': ConceptoAplicadoFactory,
+    '_TMP_RRHHDatoExtra_': DatoExtraFactory,
+    '_TMP_RRHHFalta_': FaltaFactory,
+    '_TMP_RRHHLicencia_': LicenciaFactory,
+    '_TMP_PersonaNatural_': PersonaNaturalFactory,
+    '_TMP_RRHHPersonal_': PersonalFactory,
+    '_TMP_RRHHVacacion_': VacacionFactory,
 }
 
 
