@@ -1,17 +1,17 @@
 import csv
-import logging
 import os
 import shutil
 
-logger = logging.getLogger("development")
+from logging import Logger
 
 
-def list_csv_files(path: str) -> dict[str, dict[str, list]]:
+def list_csv_files(path: str, logger: Logger) -> dict[str, dict[str, list]]:
     """
     Returns a dictionary of all CSV files in the given path.
 
     Args:
         path (str): The path to search for CSV files.
+        logger: Logger object
 
     Returns:
         files_to_process (dict): A dictionary of file paths for all CSV files found in the given path.
@@ -25,7 +25,6 @@ def list_csv_files(path: str) -> dict[str, dict[str, list]]:
         logger.error(f"The path '{path}' does not exist.")
         raise FileNotFoundError(f"The path '{path}' does not exist.")
 
-    csv_files = []
     files_to_process = {}
 
     # Walk through the directory tree starting from the given path
@@ -39,7 +38,7 @@ def list_csv_files(path: str) -> dict[str, dict[str, list]]:
                 files_to_process[db_id][table] = files_to_process[db_id].get(table, [])
                 files_to_process[db_id][table].append(os.path.join(root, file))
 
-    logger.info(f"Found {len(csv_files)} files")
+    logger.info(f"{files_to_process=}")
     return files_to_process
 
 
@@ -66,11 +65,12 @@ def parse_filename(file_path: str) -> tuple[str, ...]:
     return tuple(name.strip('%').split('%'))
 
 
-def move_file(file_path: str, destination_path: str) -> str:
+def move_file(file_path: str, destination_path: str, logger: Logger) -> str:
     """
     Moves a file to a destination directory
     :param file_path: Current file path
     :param destination_path: Destination directory
+    :param logger: Logger object
     :return: New file path after the move operation
     Raises:
         FileNotFoundError: If the file to be moved is not found.
@@ -78,10 +78,12 @@ def move_file(file_path: str, destination_path: str) -> str:
     """
     # Check if the file exists
     if not os.path.isfile(file_path):
+        logger.error(f"File not found: {file_path}")
         raise FileNotFoundError(f"File not found: {file_path}")
 
     # Check if the destination directories are valid
     if not os.path.isdir(destination_path):
+        logger.error(f"Invalid directory: {destination_path}")
         raise NotADirectoryError(f"Invalid directory: {destination_path}")
 
     # Get the filename from the file path
@@ -92,5 +94,5 @@ def move_file(file_path: str, destination_path: str) -> str:
 
     # Move the file
     shutil.move(file_path, new_file_path)
-
+    logger.info(f"File moved to: {new_file_path}")
     return new_file_path
