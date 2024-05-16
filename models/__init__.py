@@ -19,7 +19,7 @@ model_mapper: dict[str, Type[BaseModelFactory]] = {
 }
 
 
-def csv_load(rows: list, table: str, logger: Logger) -> list[BaseCSVModel]:
+def load_from_csv_file(rows: list, table: str, logger: Logger) -> list[BaseCSVModel]:
     """
     Utility function to load data into model instances from CSV data.
     :param rows: CSV data without header
@@ -33,7 +33,7 @@ def csv_load(rows: list, table: str, logger: Logger) -> list[BaseCSVModel]:
         model_data_list = [model.from_csv_row(line) for line in rows]
         logger.info(f"{len(model_data_list)} objects from class '{model.__name__}' created from {len(rows)} CSV rows.")
     except ValidationError as e:
-        logger.error(f"Error al parsear los datos CSV: {e}")
-        raise ValueError("Error during insert records")
+        logger.error(f"Error during CSV validation:\n{e}")
+        raise ValueError("Error during CSV validation")
 
     return model_data_list
