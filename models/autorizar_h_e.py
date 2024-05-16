@@ -3,16 +3,16 @@ from typing import Optional
 
 from pydantic import field_validator
 
-from models.base_csv_model import BaseCSVModel
+from models.base_models import BaseCSVModel
 
 
 class AutorizarHE(BaseCSVModel):
-    id_personal: str
-    fecha: date
-    hora_inicio: float
-    hora_termino: float
-    horas_extras_autorizadas: float
+    ID_Personal: str
+    Fecha: date
+    HoraInicio: float
+    HoraTermino: float
+    HorasExtras_Autorizadas: float
 
-    @field_validator('fecha', mode='before')
+    @field_validator('Fecha', mode='before')
     def validate_fecha(cls, value):
         return super().validate_fecha(value)

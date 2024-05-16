@@ -1,20 +1,20 @@
 import csv
-import logging
 import os
 import shutil
 
-logger = logging.getLogger("development")
+from logging import Logger
 
 
-def list_csv_files(path: str) -> list[str]:
+def list_csv_files(path: str, logger: Logger) -> dict[str, dict[str, list]]:
     """
-    Returns a list of all CSV files in the given path.
+    Returns a dictionary of all CSV files in the given path.
 
     Args:
         path (str): The path to search for CSV files.
+        logger: Logger object
 
     Returns:
-        list: A list of file paths for all CSV files found in the given path.
+        files_to_process (dict): A dictionary of file paths for all CSV files found in the given path.
 
     Raises:
         FileNotFoundError: If the provided path does not exist.
@@ -25,7 +25,7 @@ def list_csv_files(path: str) -> list[str]:
         logger.error(f"The path '{path}' does not exist.")
         raise FileNotFoundError(f"The path '{path}' does not exist.")
 
-    csv_files = []
+    files_to_process = {}
 
     # Walk through the directory tree starting from the given path
     for root, dirs, files in os.walk(path):
@@ -33,10 +33,13 @@ def list_csv_files(path: str) -> list[str]:
             # Check if the file has a .csv extension
             if file.endswith('.csv'):
                 # Construct the full file path and append it to the list
-                csv_files.append(os.path.join(root, file))
+                db_id, table, _ = parse_filename(file)
+                files_to_process[db_id] = files_to_process.get(db_id, {})
+                files_to_process[db_id][table] = files_to_process[db_id].get(table, [])
+                files_to_process[db_id][table].append(os.path.join(root, file))
 
-    logger.info(f"Found {len(csv_files)} files")
-    return csv_files
+    logger.info(f"{files_to_process=}")
+    return files_to_process
 
 
 def read_file_content(path: str) -> list[list[str]]:
@@ -51,7 +54,7 @@ def read_file_content(path: str) -> list[list[str]]:
         return [row for row in reader]
 
 
-def parse_filename(file_path: str) -> list[str]:
+def parse_filename(file_path: str) -> tuple[str, ...]:
     """
     Returns the parts from the filename
     :param file_path: complete file path
@@ -59,14 +62,15 @@ def parse_filename(file_path: str) -> list[str]:
     """
     file_name = os.path.basename(file_path)
     name = os.path.splitext(file_name)[0]  # removes file's extension
-    return name.strip('%').split('%')
+    return tuple(name.strip('%').split('%'))
 
 
-def move_file(file_path: str, destination_path: str) -> str:
+def move_file(file_path: str, destination_path: str, logger: Logger) -> str:
     """
     Moves a file to a destination directory
     :param file_path: Current file path
     :param destination_path: Destination directory
+    :param logger: Logger object
     :return: New file path after the move operation
     Raises:
         FileNotFoundError: If the file to be moved is not found.
@@ -74,10 +78,12 @@ def move_file(file_path: str, destination_path: str) -> str:
     """
     # Check if the file exists
     if not os.path.isfile(file_path):
+        logger.error(f"File not found: {file_path}")
         raise FileNotFoundError(f"File not found: {file_path}")
 
     # Check if the destination directories are valid
     if not os.path.isdir(destination_path):
+        logger.error(f"Invalid directory: {destination_path}")
         raise NotADirectoryError(f"Invalid directory: {destination_path}")
 
     # Get the filename from the file path
@@ -86,7 +92,10 @@ def move_file(file_path: str, destination_path: str) -> str:
     # Construct the new file path
     new_file_path = os.path.join(destination_path, filename)
 
-    # Move the file
-    shutil.move(file_path, new_file_path)
-
-    return new_file_path
+    try:
+        # Move the file
+        shutil.move(file_path, new_file_path)
+        logger.info(f"File moved to: {new_file_path}")
+        return new_file_path
+    except Exception as e:
+        logger.error(f"Error moving file {filename} to {destination_path}: {e}")
