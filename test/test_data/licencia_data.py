@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 csv_str = """ID_Personal,Fecha,ID_TipoLicencia,Descripcion,Estado,Condicion,Solicitado_Horas,Observaciones,ID_TipoEnfermedad,ID_TipoAccidenteTrabajo,ID_TipoParteLesionada,ID_TipoNaturalezaLesion,ID_TipoMaternidad,ID_TipoAplicacionLicencia
 12345,01/06/2023,1,Licencia por enfermedad,1,1,8,Gripe,1,,,,,,
@@ -9,7 +9,7 @@ csv_str = """ID_Personal,Fecha,ID_TipoLicencia,Descripcion,Estado,Condicion,Soli
 expected_list = [
     {
         'ID_Personal': '12345',
-        'Fecha': date(2023, 6, 1),
+        'Fecha': datetime(2023, 6, 1),
         'ID_TipoLicencia': 1,
         'Descripcion': 'Licencia por enfermedad',
         'Estado': 1,
@@ -25,7 +25,7 @@ expected_list = [
     },
     {
         'ID_Personal': '67890',
-        'Fecha': date(2023, 7, 1),
+        'Fecha': datetime(2023, 7, 1),
         'ID_TipoLicencia': 2,
         'Descripcion': 'Licencia por maternidad',
         'Estado': 2,
@@ -41,7 +41,7 @@ expected_list = [
     },
     {
         'ID_Personal': '24680',
-        'Fecha': date(2023, 8, 1),
+        'Fecha': datetime(2023, 8, 1),
         'ID_TipoLicencia': 3,
         'Descripcion': 'Licencia por accidente de trabajo',
         'Estado': 3,
@@ -57,7 +57,7 @@ expected_list = [
     },
     {
         'ID_Personal': '13579',
-        'Fecha': date(2023, 9, 1),
+        'Fecha': datetime(2023, 9, 1),
         'ID_TipoLicencia': 4,
         'Descripcion': 'Licencia por otra razón',
         'Estado': 4,

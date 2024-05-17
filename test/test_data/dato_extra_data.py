@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 csv_str = """ID_Personal,ID_TipoFileDatoExtra,Fecha,ID_Moneda,Importe,Observaciones,ID_PlanillaConf
 12345,1,01/06/2023,1,100.50,,
@@ -10,7 +10,7 @@ expected_list = [
     {
         'ID_Personal': '12345',
         'ID_TipoFileDatoExtra': 1,
-        'Fecha': date(2023, 6, 1),
+        'Fecha': datetime(2023, 6, 1),
         'ID_Moneda': 1,
         'Importe': 100.50,
         'Observaciones': None,
@@ -19,7 +19,7 @@ expected_list = [
     {
         'ID_Personal': '67890',
         'ID_TipoFileDatoExtra': 2,
-        'Fecha': date(2023, 7, 1),
+        'Fecha': datetime(2023, 7, 1),
         'ID_Moneda': 2,
         'Importe': 200.75,
         'Observaciones': 'Dato especial',
@@ -28,7 +28,7 @@ expected_list = [
     {
         'ID_Personal': '24680',
         'ID_TipoFileDatoExtra': 3,
-        'Fecha': date(2023, 8, 1),
+        'Fecha': datetime(2023, 8, 1),
         'ID_Moneda': 1,
         'Importe': 150.25,
         'Observaciones': None,
@@ -37,7 +37,7 @@ expected_list = [
     {
         'ID_Personal': '13579',
         'ID_TipoFileDatoExtra': 4,
-        'Fecha': date(2023, 9, 1),
+        'Fecha': datetime(2023, 9, 1),
         'ID_Moneda': 2,
         'Importe': 175.00,
         'Observaciones': None,

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 csv_str = """ID_Personal,Fecha,HoraInicio,HoraTermino,HorasExtras_Autorizadas
 12345,01/05/2023,8.5,17.5,9
@@ -9,28 +9,28 @@ csv_str = """ID_Personal,Fecha,HoraInicio,HoraTermino,HorasExtras_Autorizadas
 expected_list = [
     {
         'ID_Personal': '12345',
-        'Fecha': date(2023, 5, 1),
+        'Fecha': datetime(2023, 5, 1),
         'HoraInicio': 8.5,
         'HoraTermino': 17.5,
         'HorasExtras_Autorizadas': 9.0,
     },
     {
         'ID_Personal': '67890',
-        'Fecha': date(2023, 5, 2),
+        'Fecha': datetime(2023, 5, 2),
         'HoraInicio': 9.0,
         'HoraTermino': 18.0,
         'HorasExtras_Autorizadas': 9.0,
     },
     {
         'ID_Personal': '24680',
-        'Fecha': date(2023, 5, 3),
+        'Fecha': datetime(2023, 5, 3),
         'HoraInicio': 7.5,
         'HoraTermino': 16.5,
         'HorasExtras_Autorizadas': 9.0,
     },
     {
         'ID_Personal': '13579',
-        'Fecha': date(2023, 5, 4),
+        'Fecha': datetime(2023, 5, 4),
         'HoraInicio': 10.0,
         'HoraTermino': 19.0,
         'HorasExtras_Autorizadas': 9.0,
