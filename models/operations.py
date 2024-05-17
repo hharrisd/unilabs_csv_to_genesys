@@ -48,9 +48,8 @@ def execute_procedures(session: Session, table: str, logger: Logger) -> None:
         try:
             query, params = procedure
             statement = sql.text(query)
-            result = session.execute(statement=statement, params=params)
+            session.execute(statement=statement, params=params)
             logger.info(f"Procedure {query} executed.")
-            logger.debug(f"Procedure {query} result: {result.fetchall()}")
         except SQLAlchemyError as e:
             logger.error(f"Error calling {query=}; {params=}: {e}")
             raise OperationalException("Error during insert records")
