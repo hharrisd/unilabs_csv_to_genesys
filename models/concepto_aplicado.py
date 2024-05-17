@@ -32,10 +32,6 @@ class ConceptoAplicadoEntity(BaseORM):
     ID_Moneda: Mapped[int] = mapped_column(Numeric(18, 0), nullable=False)
     Monto: Mapped[float] = mapped_column(Float, nullable=False)
     Observaciones: Mapped[str] = mapped_column(String(50), nullable=True)
-    OpTransferido: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
-    OpTransferidoIntento: Mapped[int] = mapped_column(Numeric(18, 0), nullable=True, default=1)
-    OpTransferidoFechaHora: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=datetime.now())
-    OpTransferidoUsuario: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
 
     def __repr__(self):
         return (

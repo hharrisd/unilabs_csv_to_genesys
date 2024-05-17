@@ -2,7 +2,8 @@ from abc import ABC
 from datetime import datetime
 
 from pydantic import BaseModel
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Integer, Numeric, DateTime
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class BaseCSVModel(BaseModel):
@@ -28,7 +29,10 @@ class BaseCSVModel(BaseModel):
 
 
 class BaseORM(DeclarativeBase):
-    pass
+    OpTransferido: Mapped[int] = mapped_column(Integer, nullable=True)
+    OpTransferidoIntento: Mapped[int] = mapped_column(Numeric(18, 0), nullable=True)
+    OpTransferidoFechaHora: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    OpTransferidoUsuario: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class BaseModelFactory(ABC):

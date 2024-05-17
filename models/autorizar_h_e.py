@@ -29,10 +29,6 @@ class AutorizarHEEntity(BaseORM):
     HoraInicio: Mapped[float] = mapped_column(Float, nullable=False)
     HoraTermino: Mapped[float] = mapped_column(Float, nullable=False)
     HorasExtras_Autorizadas: Mapped[float] = mapped_column(Float, nullable=False)
-    OpTransferido: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
-    OpTransferidoIntento: Mapped[int] = mapped_column(Numeric(18, 0), nullable=True, default=1)
-    OpTransferidoFechaHora: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=datetime.now())
-    OpTransferidoUsuario: Mapped[int] = mapped_column(Integer, nullable=True, default=1)
 
     def __repr__(self):
         return (
