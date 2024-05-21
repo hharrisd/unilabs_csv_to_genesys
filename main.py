@@ -1,4 +1,5 @@
 import logging.config
+from pprint import pprint
 
 import pyodbc
 import tomllib
@@ -31,9 +32,14 @@ def main() -> None:
 
 
 def process_db(engine, tables, logger):
+    # Define the priority order
+    priority_order = ['_TMP_PersonaNatural_', '_TMP_RRHHPersonal_']
+    # Sort the tables based on the priority order
+    sorted_tables = sorted(tables.items(), key=lambda x: priority_order.index(x[0]) if x[0] in priority_order else float('inf'))
+
     with Session(engine) as session:
         logger.info(f'Processing data for DB {engine.url.host}')
-        for table, paths in tables.items():
+        for table, paths in sorted_tables:
             process_table(session, table, paths, logger)
 
 
