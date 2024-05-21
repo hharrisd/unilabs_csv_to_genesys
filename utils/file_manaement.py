@@ -22,8 +22,8 @@ def list_csv_files(path: str, logger: Logger) -> dict[str, dict[str, list]]:
 
     # Check if the path exists
     if not os.path.exists(path):
-        logger.error(f"The path '{path}' does not exist.")
-        raise FileNotFoundError(f"The path '{path}' does not exist.")
+        logger.error(f"El archivo '{path}' no existe.")
+        raise FileNotFoundError(f"El archivo '{path}' no existe.")
 
     files_to_process = {}
 
@@ -78,13 +78,13 @@ def move_file(file_path: str, destination_path: str, logger: Logger) -> str:
     """
     # Check if the file exists
     if not os.path.isfile(file_path):
-        logger.error(f"File not found: {file_path}")
-        raise FileNotFoundError(f"File not found: {file_path}")
+        logger.error(f"Archivo no encontrado: {file_path}")
+        raise FileNotFoundError(f"Archivo no encontrado: {file_path}")
 
     # Check if the destination directories are valid
     if not os.path.isdir(destination_path):
-        logger.error(f"Invalid directory: {destination_path}")
-        raise NotADirectoryError(f"Invalid directory: {destination_path}")
+        logger.error(f"Directorio inválido: {destination_path}")
+        raise NotADirectoryError(f"Directorio inválido: {destination_path}")
 
     # Get the filename from the file path
     filename = os.path.basename(file_path)
@@ -95,7 +95,7 @@ def move_file(file_path: str, destination_path: str, logger: Logger) -> str:
     try:
         # Move the file
         shutil.move(file_path, new_file_path)
-        logger.info(f"File moved to: {new_file_path}")
+        logger.info(f"Archivo movido a: {new_file_path}")
         return new_file_path
     except Exception as e:
-        logger.error(f"Error moving file {filename} to {destination_path}: {e}")
+        logger.error(f"Error moviendo archivo de: '{filename}' a: '{destination_path}':\n{e}")

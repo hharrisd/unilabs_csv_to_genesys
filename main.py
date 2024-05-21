@@ -1,4 +1,5 @@
 import logging.config
+from pprint import pprint
 
 import pyodbc
 import tomllib
@@ -9,6 +10,7 @@ from db_connection import get_engine
 from models import load_from_csv_file
 from models.operations import insert_records, execute_procedures, OperationalException
 from utils.file_manaement import list_csv_files, read_file_content, move_file
+from utils.send_email import send_mail
 
 with open("logging_config.yaml", "rb") as f:
     logging_config_file = yaml.safe_load(f.read())
@@ -30,32 +32,37 @@ def main() -> None:
 
 
 def process_db(engine, tables, logger):
+    # Define the priority order
+    priority_order = ['_TMP_PersonaNatural_', '_TMP_RRHHPersonal_']
+    # Sort the tables based on the priority order
+    sorted_tables = sorted(tables.items(), key=lambda x: priority_order.index(x[0]) if x[0] in priority_order else float('inf'))
+
     with Session(engine) as session:
-        logger.info(f'Processing data for DB {engine.url.host}')
-        for table, paths in tables.items():
+        logger.info(f'Procesando data para la conexión: {engine.url.host}')
+        for table, paths in sorted_tables:
             process_table(session, table, paths, logger)
 
 
 def process_table(session, table, paths, logger):
     for path in paths:
         try:
-            logger.debug(f"Attemp to load data from {path}")
+            logger.debug(f"Inicio de carga de data de la ruta: {path}")
             load_and_insert_records(path, table, session, logger)
             if config['execute_procedures']:
-                logger.debug('Executing procedures')
+                logger.debug('Ejecutando procedimientos')
                 execute_procedures(session, table, logger)
             else:
-                logger.debug('Procedures execution skipped')
+                logger.debug('Ejecución de procedimientos omitida')
             move_file(path, config['folder']['succeded'], logger)
         except (OperationalException, ValueError) as e:
-            logger.error(f"Exception captured: {e}")
+            logger.error(f"Excepción capturada: {e}")
             move_file(path, config['folder']['observed'], logger)
 
-            # Execute send email in case of observed file
-            if config['send_email']:
-                print('TODO: Send Email')
-            else:
-                logger.debug('Send email skipped')
+            body = (f"Archivo: {path} \n"
+                    f"Error capturado:\n"
+                    f"{str(e)}")
+
+            send_mail(config['email'], 'Archivo observado', body, logger)
 
 
 def load_and_insert_records(path, table, session, logger):

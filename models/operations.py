@@ -22,7 +22,7 @@ def insert_records(records: list[BaseCSVModel], session: Session, table: str, lo
     """
     orm_entity_class = model_mapper[table].orm_model
 
-    logger.debug(f"About to insert {len(records)} records on class {orm_entity_class.__name__}")
+    logger.debug(f"A punto de insertar {len(records)} registros en el modelo: {orm_entity_class.__name__}")
 
     try:
         for record in records:
@@ -30,10 +30,11 @@ def insert_records(records: list[BaseCSVModel], session: Session, table: str, lo
             session.add(entity_object)
 
         session.commit()
-        logger.info(f"{len(records)} inserted on table {orm_entity_class.__table__}")
+        logger.info(f"{len(records)} registros insertados en tabla: {orm_entity_class.__table__}")
     except (SQLAlchemyError, pyodbc.Error) as e:
-        logger.error(f"Error during insertion on entity {orm_entity_class.__name__}: \n{e}")
-        raise OperationalException("Error during insert records")
+        detailed_error = f"Error durante la inserción en la entidad: {orm_entity_class.__name__}: \n{e}"
+        logger.error(detailed_error)
+        raise OperationalException(f"Error durante inserción de registros.\n{detailed_error}")
 
 
 def execute_procedures(session: Session, table: str, logger: Logger) -> None:
@@ -50,7 +51,8 @@ def execute_procedures(session: Session, table: str, logger: Logger) -> None:
             statement = sql.text(query)
             session.execute(statement=statement, params=params)
             session.commit()
-            logger.info(f"Procedure {query} executed succesfully.")
+            logger.info(f"Procedimiento {query} ejecutado exitosamente.")
         except SQLAlchemyError as e:
-            logger.error(f"Error calling {query=}; {params=}: {e}")
-            raise OperationalException("Error during insert records")
+            detailed_error = f"Error ejecutando {query=}; {params=}: {e}"
+            logger.error(detailed_error)
+            raise OperationalException(f"Error durante inserción de registros.\n{detailed_error}")
