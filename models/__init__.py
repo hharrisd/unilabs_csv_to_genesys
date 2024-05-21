@@ -39,7 +39,7 @@ def load_from_csv_file(rows: list, table: str, logger: Logger) -> list[BaseCSVMo
         model_data_list = [model.from_csv_row(line) for line in rows]
         logger.info(f"{len(model_data_list)} objects from class '{model.__name__}' created from {len(rows)} CSV rows.")
     except ValidationError as e:
-        logger.error(f"Error during CSV validation:\n{e}")
-        raise ValueError("Error during CSV validation")
+        logger.error(f"Error durante la validación del archivo CSV:\n{e}")
+        raise ValueError(f"Error durante la validación del archivo CSV:\n{e}")
 
     return model_data_list

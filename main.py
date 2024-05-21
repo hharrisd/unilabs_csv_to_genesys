@@ -9,6 +9,7 @@ from db_connection import get_engine
 from models import load_from_csv_file
 from models.operations import insert_records, execute_procedures, OperationalException
 from utils.file_manaement import list_csv_files, read_file_content, move_file
+from utils.send_email import send_mail
 
 with open("logging_config.yaml", "rb") as f:
     logging_config_file = yaml.safe_load(f.read())
@@ -51,11 +52,11 @@ def process_table(session, table, paths, logger):
             logger.error(f"Exception captured: {e}")
             move_file(path, config['folder']['observed'], logger)
 
-            # Execute send email in case of observed file
-            if config['send_email']:
-                print('TODO: Send Email')
-            else:
-                logger.debug('Send email skipped')
+            body = (f"File: {path} \n"
+                    f"Error capturado:\n"
+                    f"{str(e)}")
+
+            send_mail(config['email'], 'Archivo observado', body, logger)
 
 
 def load_and_insert_records(path, table, session, logger):
