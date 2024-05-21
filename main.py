@@ -38,7 +38,7 @@ def process_db(engine, tables, logger):
     sorted_tables = sorted(tables.items(), key=lambda x: priority_order.index(x[0]) if x[0] in priority_order else float('inf'))
 
     with Session(engine) as session:
-        logger.info(f'Processing data for DB {engine.url.host}')
+        logger.info(f'Procesando data para la conexión: {engine.url.host}')
         for table, paths in sorted_tables:
             process_table(session, table, paths, logger)
 
@@ -46,19 +46,19 @@ def process_db(engine, tables, logger):
 def process_table(session, table, paths, logger):
     for path in paths:
         try:
-            logger.debug(f"Attemp to load data from {path}")
+            logger.debug(f"Inicio de carga de data de la ruta: {path}")
             load_and_insert_records(path, table, session, logger)
             if config['execute_procedures']:
-                logger.debug('Executing procedures')
+                logger.debug('Ejecutando procedimientos')
                 execute_procedures(session, table, logger)
             else:
-                logger.debug('Procedures execution skipped')
+                logger.debug('Ejecución de procedimientos omitida')
             move_file(path, config['folder']['succeded'], logger)
         except (OperationalException, ValueError) as e:
-            logger.error(f"Exception captured: {e}")
+            logger.error(f"Excepción capturada: {e}")
             move_file(path, config['folder']['observed'], logger)
 
-            body = (f"File: {path} \n"
+            body = (f"Archivo: {path} \n"
                     f"Error capturado:\n"
                     f"{str(e)}")
 
