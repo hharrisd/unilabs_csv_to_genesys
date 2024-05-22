@@ -32,11 +32,14 @@ def list_csv_files(path: str, logger: Logger) -> dict[str, dict[str, list]]:
         for file in files:
             # Check if the file has a .csv extension
             if file.endswith('.csv'):
-                # Construct the full file path and append it to the list
-                db_id, table, _ = parse_filename(file)
-                files_to_process[db_id] = files_to_process.get(db_id, {})
-                files_to_process[db_id][table] = files_to_process[db_id].get(table, [])
-                files_to_process[db_id][table].append(os.path.join(root, file))
+                try:
+                    # Construct the full file path and append it to the list
+                    db_id, table, _ = parse_filename(file)
+                    files_to_process[db_id] = files_to_process.get(db_id, {})
+                    files_to_process[db_id][table] = files_to_process[db_id].get(table, [])
+                    files_to_process[db_id][table].append(os.path.join(root, file))
+                except ValueError as error:
+                    logger.error(f"Error obteniendo partes del nombre. '{file=}' \n{error=}")
 
     logger.info(f"{files_to_process=}")
     return files_to_process
