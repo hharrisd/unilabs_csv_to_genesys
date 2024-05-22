@@ -18,7 +18,7 @@ class Personal(BaseCSVModel):
     ID_Pais: int
     NacimientoDistrito: int
     DomicilioDistrito: int
-    DomicilioTipoVia: int
+    DomicilioTipoVia: Optional[int] = None
     DomicilioDireccion: Optional[str] = None
     DomicilioNumero: Optional[str] = None
     DomicilioInterior: Optional[str] = None
@@ -86,7 +86,7 @@ class PersonalEntity(BaseORM):
     ID_Pais: Mapped[int] = mapped_column(Numeric(18, 0), nullable=False)
     NacimientoDistrito: Mapped[int] = mapped_column(Numeric(18, 0), nullable=False)
     DomicilioDistrito: Mapped[int] = mapped_column(Numeric(18, 0), nullable=False)
-    DomicilioTipoVia: Mapped[int] = mapped_column(Integer, nullable=False)
+    DomicilioTipoVia: Mapped[int] = mapped_column(Integer, nullable=False, default=105)  # Valor de Avenida en Genesys
     DomicilioDireccion: Mapped[str] = mapped_column(String(50), nullable=True)
     DomicilioNumero: Mapped[str] = mapped_column(String(20), nullable=True)
     DomicilioInterior: Mapped[str] = mapped_column(String(20), nullable=True)
