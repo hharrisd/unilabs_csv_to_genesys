@@ -1,7 +1,7 @@
 from datetime import datetime
 
 csv_str = """ID_Personal,Fecha,ID_TipoFalta,Descripcion,Estado,Condicion,Cantidad_Horas,Observaciones
-09330594,09/02/2024,4,,1,0,2
+09330594,09/02/2024,4,,1,0,.5
 43090510,30/01/2024,1,,1,1,1
 43090510,02/01/2024,1,,1,1,1
 09993871,16/01/2024,1,,1,1,1
@@ -19,7 +19,7 @@ expected_list = [
         "Descripcion": None,
         "Estado": 1,
         "Condicion": 0,
-        "Cantidad_Horas": 2,
+        "Cantidad_Horas": .5,
         "Observaciones": None
     },
     {

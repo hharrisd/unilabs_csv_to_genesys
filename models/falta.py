@@ -16,7 +16,7 @@ class Falta(BaseCSVModel):
     Descripcion: Optional[str] = None
     Estado: int
     Condicion: int
-    Cantidad_Horas: int
+    Cantidad_Horas: float
     Observaciones: Optional[str] = None
 
     @field_validator('Fecha', mode='before')
