@@ -2,6 +2,10 @@
 
 Aplicación para la validación y carga de archivos CSV provenientes del sistema OneHR al sistema ERP Genesys
 
+### Flujo general
+
+![img.png](flujo-general.png)
+
 ### Requerimientos de la Aplicación
 
 * [Python 3.12](https://www.python.org/downloads/)
