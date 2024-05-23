@@ -18,6 +18,7 @@ handlers:
     level: DEBUG
     formatter: simple
     filename: myapp.log
+    encoding: utf8
     mode: a
 
 loggers:
