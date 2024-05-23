@@ -23,9 +23,9 @@ Aplicación para la validación y carga de archivos CSV provenientes del sistema
 
 ### Creación
 
-* Cambiar al directorio de descarga del código fuente
-* Verificar que python está instalado con la versión correcta ejecutando `python -V`
-* Ejecutar el comando para crear el entorno virtual
+* Cambiar al directorio de descarga del código fuente.
+* Verificar que python está instalado con la versión correcta ejecutando `python -V`.
+* Ejecutar el comando para crear el entorno virtual.
 
     ```bash
     python -m venv venv
@@ -80,7 +80,7 @@ Por cada base de datos se debe indicar lo siguiente:
 Se debe indicar la ruta absoluta de los tres directorios para la gestión de los archivos CSV.
 
 * **source**: Ruta del directorio de origen que contiene los archivos por procesar.
-* **observed** Ruta del directorio de archivos que fueron observados, si ocurrió algún error durante su procesamiento.
+* **observed**: Ruta del directorio de archivos que fueron observados, si ocurrió algún error durante su procesamiento.
 * **succeded**: Ruta del directorio de archivos procesados correctamente.
 
 #### Configuración de envío de correo
