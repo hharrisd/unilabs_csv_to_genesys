@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pydantic import field_validator
+from pydantic import field_validator, constr
 from sqlalchemy import String, DateTime, Integer, Numeric, Float
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,14 +10,14 @@ from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class Falta(BaseCSVModel):
-    ID_Personal: str
+    ID_Personal: constr(max_length=20)
     Fecha: datetime
     ID_TipoFalta: int
-    Descripcion: Optional[str] = None
+    Descripcion: Optional[constr(max_length=250)] = None
     Estado: int
     Condicion: int
     Cantidad_Horas: float
-    Observaciones: Optional[str] = None
+    Observaciones: Optional[constr(max_length=250)] = None
 
     @field_validator('Fecha', mode='before')
     def validate_fecha(cls, value):

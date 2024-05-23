@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pydantic import field_validator
+from pydantic import field_validator, constr
 from sqlalchemy import String, DateTime, Integer, Numeric, Float
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,14 +10,14 @@ from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class Licencia(BaseCSVModel):
-    ID_Personal: str
+    ID_Personal: constr(max_length=20)
     Fecha: datetime
     ID_TipoLicencia: int
-    Descripcion: str
+    Descripcion: constr(max_length=250)
     Estado: int
     Condicion: int
     Solicitado_Horas: float
-    Observaciones: Optional[str] = None
+    Observaciones: Optional[constr(max_length=250)] = None
     ID_TipoEnfermedad: Optional[int] = None
     ID_TipoAccidenteTrabajo: Optional[int] = None
     ID_TipoParteLesionada: Optional[int] = None

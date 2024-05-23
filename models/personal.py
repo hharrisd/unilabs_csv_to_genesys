@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pydantic import field_validator
+from pydantic import field_validator, constr
 from sqlalchemy import String, DateTime, Integer, Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,31 +10,31 @@ from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class Personal(BaseCSVModel):
-    ID_Personal: str
+    ID_Personal: constr(max_length=20)
     ID_Estado: int
-    Sexo: str
+    Sexo: constr(max_length=1)
     ID_EstadoCivil: int
     FechaNacimiento: datetime
     ID_Pais: int
     NacimientoDistrito: int
     DomicilioDistrito: int
-    DomicilioTipoVia: Optional[int] = None
-    DomicilioDireccion: Optional[str] = None
-    DomicilioNumero: Optional[str] = None
-    DomicilioInterior: Optional[str] = None
+    DomicilioTipoVia: int = 105  # Default value of 105 (Avenida en Genesys)
+    DomicilioDireccion: Optional[constr(max_length=50)] = None
+    DomicilioNumero: Optional[constr(max_length=20)] = None
+    DomicilioInterior: Optional[constr(max_length=20)] = None
     DomicilioTipoZona: Optional[int] = None
-    DomicilioZona: Optional[str] = None
-    DomicilioReferencia: Optional[str] = None
-    DomicilioTelefono: Optional[str] = None
-    UBIGEO: Optional[str] = None
+    DomicilioZona: Optional[constr(max_length=50)] = None
+    DomicilioReferencia: Optional[constr(max_length=50)] = None
+    DomicilioTelefono: Optional[constr(max_length=20)] = None
+    UBIGEO: Optional[constr(max_length=10)] = None
     ID_TipoProfesion: int
-    NroColegiatura: Optional[str] = None
+    NroColegiatura: Optional[constr(max_length=20)] = None
     ID_Sede: int
     ID_Cargo: int
     ID_CargoTipo: int
-    ID_CCosto: Optional[str] = None
-    ID_UnidadGestion: Optional[str] = None
-    ID_UnidadProyecto: Optional[str] = None
+    ID_CCosto: Optional[constr(max_length=12)] = None
+    ID_UnidadGestion: Optional[constr(max_length=12)] = None
+    ID_UnidadProyecto: Optional[constr(max_length=12)] = None
     ID_TipoTrabajador: int
     ID_TipoPersonal: int
     ID_Area: int
@@ -43,23 +43,23 @@ class Personal(BaseCSVModel):
     ID_Horario: int
     FechaIngreso: datetime
     FechaCese: Optional[datetime] = None
-    ID_BcoPagoSueldo: Optional[str] = None
-    NroCtaPagoSueldo: Optional[str] = None
-    NroCtaPagoSueldoCCI: Optional[str] = None
+    ID_BcoPagoSueldo: Optional[constr(max_length=20)] = None
+    NroCtaPagoSueldo: Optional[constr(max_length=20)] = None
+    NroCtaPagoSueldoCCI: Optional[constr(max_length=20)] = None
     TipoCtaPagoSueldo: Optional[int] = None
     MonedaPagoSueldo: Optional[int] = None
-    ID_BcoPagoCTS: Optional[str] = None
-    NroCtaPagoCTS: Optional[str] = None
-    NroCtaPagoCTSCCI: Optional[str] = None
+    ID_BcoPagoCTS: Optional[constr(max_length=20)] = None
+    NroCtaPagoCTS: Optional[constr(max_length=20)] = None
+    NroCtaPagoCTSCCI: Optional[constr(max_length=20)] = None
     TipoCtaPagoCTS: Optional[int] = None
     MonedaPagoCTS: Optional[int] = None
-    CUSPP: Optional[str] = None
-    Observaciones: Optional[str] = None
+    CUSPP: Optional[constr(max_length=50)] = None
+    Observaciones: Optional[constr(max_length=50)] = None
     AfectoSCRT: int
     ID_TipoNivelEducativo: Optional[int] = None
     ID_Categoria: Optional[int] = None
     ID_TipoPension: Optional[int] = None
-    Email: Optional[str] = None
+    Email: Optional[constr(max_length=255)] = None
 
     @field_validator('FechaNacimiento', mode='before')
     def validate_fecha_nacimiento(cls, value):

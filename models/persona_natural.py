@@ -1,20 +1,20 @@
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import String, DateTime, Integer, Numeric
+from pydantic import constr
+from sqlalchemy import String, Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 
 from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class PersonaNatural(BaseCSVModel):
-    Nombre1: str
-    Nombre2: Optional[str] = None
-    ApellidoPaterno: str
-    ApellidoMaterno: Optional[str] = None
-    DNI: str
-    RUC: Optional[str] = None
+    Nombre1: constr(max_length=50)
+    Nombre2: Optional[constr(max_length=50)] = None
+    ApellidoPaterno: constr(max_length=50)
+    ApellidoMaterno: constr(max_length=50)
+    DNI: constr(max_length=8)
+    RUC: Optional[constr(max_length=11)] = None
 
 
 class PersonaNaturalEntity(BaseORM):

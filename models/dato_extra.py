@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from pydantic import field_validator
+from pydantic import field_validator, constr
 from sqlalchemy import String, DateTime, Integer, Numeric, Float
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,12 +10,12 @@ from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class DatoExtra(BaseCSVModel):
-    ID_Personal: str
+    ID_Personal: constr(max_length=20)
     ID_TipoFileDatoExtra: int
     Fecha: datetime
     ID_Moneda: int
     Importe: float
-    Observaciones: Optional[str] = None
+    Observaciones: Optional[constr(max_length=50)] = None
     ID_PlanillaConf: Optional[int] = None
 
     @field_validator('Fecha', mode='before')

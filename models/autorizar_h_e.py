@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from pydantic import field_validator
-from sqlalchemy import DateTime, Float, Integer, Numeric, String
+from pydantic import field_validator, constr
+from sqlalchemy import DateTime, Float, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from models.base_models import BaseCSVModel, BaseORM, BaseModelFactory
 
 
 class AutorizarHE(BaseCSVModel):
-    ID_Personal: str
+    ID_Personal: constr(max_length=20)
     Fecha: datetime
     HoraInicio: float
     HoraTermino: float
