@@ -13,7 +13,7 @@ user = 'sa'
 pass = 'Your_Password123'
 
 [folder]
-source = '/Users/humbertoharris/workspace/unilabs_csv_to_genesys/data/source'
+source = '/Users/user/workspace/unilabs_csv_to_genesys/data/source'
 observed = 'data/observed'
 succeded = 'data/succeded'
 
