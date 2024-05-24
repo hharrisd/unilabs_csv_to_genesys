@@ -46,7 +46,7 @@ expected_list = [
         "ID_BcoPagoCTS": None,
         "NroCtaPagoCTS": None,
         "NroCtaPagoCTSCCI": None,
-        "TipoCtaPagoCTS": None,
+        "TipoCtaPagoCTS": 4,
         "MonedaPagoCTS": None,
         "CUSPP": None,
         "Observaciones": None,
