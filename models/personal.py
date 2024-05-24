@@ -51,11 +51,11 @@ class Personal(BaseCSVModel):
     ID_BcoPagoCTS: Optional[constr(max_length=20)] = None
     NroCtaPagoCTS: Optional[constr(max_length=20)] = None
     NroCtaPagoCTSCCI: Optional[constr(max_length=20)] = None
-    TipoCtaPagoCTS: Optional[int] = None
+    TipoCtaPagoCTS: Optional[int] = 4
     MonedaPagoCTS: Optional[int] = None
     CUSPP: Optional[constr(max_length=50)] = None
     Observaciones: Optional[constr(max_length=50)] = None
-    AfectoSCRT: int
+    AfectoSCRT: int = 0
     ID_TipoNivelEducativo: Optional[int] = None
     ID_Categoria: Optional[int] = None
     ID_TipoPension: Optional[int] = None
@@ -119,11 +119,11 @@ class PersonalEntity(BaseORM):
     ID_BcoPagoCTS: Mapped[str] = mapped_column(String(20), nullable=True)
     NroCtaPagoCTS: Mapped[str] = mapped_column(String(20), nullable=True)
     NroCtaPagoCTSCCI: Mapped[str] = mapped_column(String(20), nullable=True)
-    TipoCtaPagoCTS: Mapped[int] = mapped_column(Integer, nullable=True)
+    TipoCtaPagoCTS: Mapped[int] = mapped_column(Integer, nullable=True, default=4)
     MonedaPagoCTS: Mapped[int] = mapped_column(Numeric(18, 0), nullable=True)
     CUSPP: Mapped[str] = mapped_column(String(50), nullable=True)
     Observaciones: Mapped[str] = mapped_column(String(50), nullable=True)
-    AfectoSCRT: Mapped[int] = mapped_column(Integer, nullable=False)
+    AfectoSCRT: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     ID_TipoNivelEducativo: Mapped[int] = mapped_column(Integer, nullable=True)
     ID_Categoria: Mapped[int] = mapped_column(Integer, nullable=True)
     ID_TipoPension: Mapped[int] = mapped_column(Integer, nullable=True)
