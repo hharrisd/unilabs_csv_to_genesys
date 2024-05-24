@@ -46,7 +46,7 @@ Aplicación para la validación y carga de archivos CSV provenientes del sistema
 #### Unix
 
 ```bash
-source my_env/bin/activate
+source venv/bin/activate
 ```
 
 ## Instalación de dependencias
