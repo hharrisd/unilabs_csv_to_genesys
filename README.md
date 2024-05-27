@@ -20,7 +20,7 @@ Aplicación para la validación y carga de archivos CSV provenientes del sistema
 - Escribe `git clone` y pega la URL del proyecto:
 
     ```bash 
-    git clone https://github.com/hharrisd/unilabs_csv_to_genesys.git`
+    git clone https://gitlab.com/betoharris/unilabs_csv_to_genesys.git
     ```
 
 ## Creación y activación de entorno virtual de Python
