@@ -12,6 +12,7 @@ from .licencia import Licencia, LicenciaFactory
 from .persona_natural import PersonaNatural, PersonaNaturalFactory
 from .personal import Personal, PersonalFactory
 from .vacacion import Vacacion, VacacionFactory
+from .sujeto_no_domiciliado import SujetoNoDomiciliado, SujetoNoDomiciliadoFactory
 
 model_mapper: dict[str, Type[BaseModelFactory]] = {
     '_TMP_RRHHAutorizarHE_': AutorizarHEFactory,
@@ -22,6 +23,7 @@ model_mapper: dict[str, Type[BaseModelFactory]] = {
     '_TMP_PersonaNatural_': PersonaNaturalFactory,
     '_TMP_RRHHPersonal_': PersonalFactory,
     '_TMP_RRHHVacacion_': VacacionFactory,
+    '_TMP_SujetoNoDomiciliado_': SujetoNoDomiciliadoFactory
 }
 
 
