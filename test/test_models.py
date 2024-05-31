@@ -5,10 +5,10 @@ from typing import Type
 from pydantic import ValidationError
 
 from models import (Falta, Vacacion, Personal, PersonaNatural, BaseCSVModel, AutorizarHE, ConceptoAplicado, DatoExtra,
-                    Licencia)
+                    Licencia, SujetoNoDomiciliado)
 
 from test_data import (autorizar_h_e_data, falta_data, vacacion_data, personal_data, persona_natural_data,
-                       concepto_aplicado_data, dato_extra_data, licencia_data)
+                       concepto_aplicado_data, dato_extra_data, licencia_data, sujeto_no_domiciliado_data)
 
 
 class TestData:
@@ -114,6 +114,13 @@ class TestPersonal:
     def test_personal_from_csv_data(self):
         actual = csv_load(Personal, personal_data.csv_str)
         assert_model_instances(actual, personal_data.expected_list)
+
+
+class TestSujetoNoDomiciliado:
+    """Test cases for the SujetoNoDomiciliado model."""
+    def test_sujeto_no_domiciliado_from_csv_data(self):
+        actual = csv_load(SujetoNoDomiciliado, sujeto_no_domiciliado_data.csv_str)
+        assert_model_instances(actual, sujeto_no_domiciliado_data.expected_list)
 
 
 class TestVacacion:
