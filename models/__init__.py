@@ -1,5 +1,5 @@
 from logging import Logger
-from typing import Type
+from typing import Type, Callable
 
 from pydantic import ValidationError
 
@@ -27,7 +27,7 @@ model_mapper: dict[str, Type[BaseModelFactory]] = {
 }
 
 
-def load_from_csv_file(rows: list, table: str, logger: Logger) -> list[BaseCSVModel]:
+async def load_from_csv_file(rows: list, table: str, logger: Logger, path: str, mailer: Callable) -> list[BaseCSVModel]:
     """
     Utility function to load data into model instances from CSV data.
     :param rows: CSV data without header
@@ -37,11 +37,22 @@ def load_from_csv_file(rows: list, table: str, logger: Logger) -> list[BaseCSVMo
     """
     model = model_mapper[table].pydantic_model
 
-    try:
-        model_data_list = [model.from_csv_row(line) for line in rows]
-        logger.info(f"{len(model_data_list)} objects from class '{model.__name__}' created from {len(rows)} CSV rows.")
-    except ValidationError as e:
-        logger.error(f"Error durante la validación del archivo CSV:\n{e}")
-        raise ValueError(f"Error durante la validación del archivo CSV:\n{e}")
+    model_data_list = []
+    long_dni_erros = []
+    for line in rows:
+        try:
+            model_data_list.append(model.from_csv_row(line))
+        except ValidationError as e:
+            if 'DNI' in e.errors()[0]['loc'] and 'string_too_long' in repr(e.errors()):
+                long_dni_erros.append(dict(e.errors()[0])['input'])
+            else:
+                logger.error(f"Error durante la validación del archivo CSV:\n{e}")
+                raise ValueError(f"Error durante la validación del archivo CSV:\n{e}")
+    logger.info(f"{len(model_data_list)} objects from class '{model.__name__}' created from {len(rows)} CSV rows.")
 
+    if long_dni_erros:
+        message = (f"Archivo: {path}\n"
+                   f"DNIs:\n {long_dni_erros}")
+        logger.warning(f"Registros omitidos por DNIs muy largos:\n{message}")
+        await mailer(subject='Registros omitidos por DNIs muy largos', body=message)
     return model_data_list

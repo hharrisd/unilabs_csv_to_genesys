@@ -1,4 +1,6 @@
 import smtplib
+from aiosmtplib import SMTP
+from email.message import EmailMessage
 from logging import Logger
 
 
@@ -30,4 +32,21 @@ def send_mail(mail_config: dict, subject: str, body: str, logger: Logger) -> Non
             logger.debug('Email enviado')
     except Exception as error:
         print(error)
+        logger.error(f'Error enviando email: {str(error)}')
+
+
+async def async_send_email(mail_config: dict, subject: str, body: str, logger: Logger):
+    try:
+        message = EmailMessage()
+        message["From"] = mail_config['sender_email']
+        message["To"] = mail_config['receiver_email']
+        message["Subject"] = subject
+        message.set_content(str(body))
+
+        smtp_client = SMTP(hostname=mail_config['smtp_server'], port=mail_config['port'],
+                           username=mail_config['sender_email'], password=mail_config['password'])
+        async with smtp_client:
+            await smtp_client.send_message(message)
+            logger.debug('Email enviado')
+    except Exception as error:
         logger.error(f'Error enviando email: {str(error)}')
